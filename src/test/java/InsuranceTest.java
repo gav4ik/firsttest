@@ -21,7 +21,7 @@ public class InsuranceTest {
     @Before
     public void beforeTest(){
         System.setProperty("webdriver.chrome.driver", "drv/chromedriver.exe");
-        baseUrl=" http://www.sberbank.ru/ru/person";
+        baseUrl="http://www.sberbank.ru/ru/person";
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 //        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -71,8 +71,11 @@ public class InsuranceTest {
         fillField(By.id("person_firstName"), "Петр",wait);
         fillField(By.id("person_middleName"), "Петрович",wait);
         fillField(By.id("person_birthDate"), "15.02.1995",wait);
-        //WebElement gender = driver.findElement(By.xpath("//LABEL[@class='btn ng-untouched ng-pristine ng-valid'][text()='Мужской']"));
-        //wait.until(ExpectedConditions.elementToBeClickable(gender)).click();
+        WebElement gender = driver.findElement(By.xpath("/html/body/app/ng-component/div/div/div/app-forming-product/div/form/div/fieldset[2]/div/div/person-general-data/div/div[5]/div/form-control-label/div"));
+//        WebElement gender = driver.findElement(By.className("form-control__radio-button"));
+//        var genders = gender.findElements(By.className("btn"));
+        var gender1 = gender.findElement(By.className("active"));
+        Assert.assertEquals("Мужской",gender1.getText());
         //driver.findElement(By.xpath("//LABEL[@class='btn ng-untouched ng-pristine ng-valid active']")).click();
         fillField(By.xpath("/html/body/app/ng-component/div/div/div/app-forming-product/div/form/div/fieldset[3]/online-person-passport/div/div[1]/div[1]/form-control-label/div/div/div[1]/input-filter/span/input"), "4505",wait);
         fillField(By.id("passportNumber"), "987654",wait);
@@ -90,7 +93,6 @@ public class InsuranceTest {
         Assert.assertEquals("Петр", driver.findElement(By.id("person_firstName")).getAttribute("value"));
         Assert.assertEquals("Петрович", driver.findElement(By.id("person_middleName")).getAttribute("value"));
         Assert.assertEquals("15.02.1995", driver.findElement(By.id("person_birthDate")).getAttribute("value"));
-        //Assert.assertEquals("Мужской", driver.findElement(By.xpath("//LABEL[@class='btn ng-untouched ng-pristine ng-valid active']")).getText());
         Assert.assertEquals("4505", driver.findElement(By.id("passportSeries")).getAttribute("value"));
         Assert.assertEquals("987654", driver.findElement(By.id("passportNumber")).getAttribute("value"));
         Assert.assertEquals("11.12.2015", driver.findElement(By.id("documentDate")).getAttribute("value"));
