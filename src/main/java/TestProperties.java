@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class TestProperties {
+
         private final Properties properties = new Properties();
         private static TestProperties INSTANCE = null;
+
         private TestProperties(){
             try {
                 properties.load(new FileInputStream(new File("./" +
-                        System.getProperty("environment") + ".properties")));
+                        "application" + ".properties")));
+//                        System.getProperty("environment") + ".properties")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
