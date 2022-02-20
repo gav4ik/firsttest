@@ -11,7 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class FormingPage {
+public class FormingPage extends BasePage {
+
     @FindBy(id = "surname_vzr_ins_0")
     WebElement surnameIns;
 
@@ -37,7 +38,7 @@ public class FormingPage {
     WebElement gender;
 
     //@FindBy(className = "active")
-   // WebElement activeGender;
+    // WebElement activeGender;
 
     @FindBy(xpath = "/html/body/app/ng-component/div/div/div/app-forming-product/div/form/div/fieldset[3]/online-person-passport/div/div[1]/div[1]/form-control-label/div/div/div[1]/input-filter/span/input")
     WebElement passSer;
@@ -54,15 +55,26 @@ public class FormingPage {
     @FindBy(xpath = "//button[contains(@type, 'submit')][contains( text(), 'Продолжить')]")
     public WebElement buttonContinue;
 
-    public FormingPage (WebDriver driver) {
+    @FindBy(xpath = "div[contains(@class, 'alert-form alert-form-error')]")
+    public WebElement mistake;
+
+    public String getTextById(String id) {
+        return driver.findElement(By.id(id)).getAttribute("value");
+    }
+
+    public WebElement getMistake() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'alert-form alert-form-error')]"));
+    }
+
+
+    public FormingPage(WebDriver driver) {
+        super(driver);
         PageFactory.initElements(driver, this);
         Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(15), Duration.ofSeconds(10));
         //wait.until(ExpectedConditions.visibilityOf(buttonContinue)).click();
     }
 
-    public void fillField(String fildName, String value) {
-        getField(fildName).sendKeys(value);
-    }
+
 
     public WebElement getField(String fildName) {
         switch (fildName) {
@@ -88,26 +100,20 @@ public class FormingPage {
                 return docDate;
             case "Кем выдан паспорт":
                 return docIssue;
-            default: throw new AssertionError("Поле '" +  fildName + "' не объявлено на странице." );
+            default:
+                throw new AssertionError("Поле '" + fildName + "' не объявлено на странице.");
         }
     }
 
-    public void fillField(String fildName, String value, Wait<WebDriver>wait) {
-            WebElement element = getField(fildName);
-            element.clear();
-            element.click();
+    public void fillField(String fildName, String value, Wait<WebDriver> wait) {
+        getField(fildName).sendKeys(value);
+    }
+    public void fillFieldWait(String fildName, String value, Wait<WebDriver> wait) {
+        WebElement element = getField(fildName);
+        element.clear();
+        element.click();
         wait.until(ExpectedConditions.visibilityOf(element)).sendKeys(value);
     }
-
-   /* protected void checkActive(WebElement element){
-        if (!element.getAttribute("class").contains("active")){
-            element.click();
-        }
-    }*/
 }
 
-//public void fillField(By locator, String value, Wait<WebDriver> wait) {
-// WebElement we1 = driver.findElement(locator);
-// wait.until(ExpectedConditions.visibilityOf(we1)).clear();
-// we1.click();
-//wait.until(ExpectedConditions.visibilityOf(we1)).sendKeys(value);
+

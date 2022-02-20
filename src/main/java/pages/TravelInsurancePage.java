@@ -9,18 +9,22 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-
-public class TravelInsurancePage {
-   // @FindBy(xpath = "//*[@id=\"page-main\"]/div[1]/div/div/div/div/div/div[1]/h1")
-    //WebElement title;
+public class TravelInsurancePage extends BasePage{
+    @FindBy(xpath = "//h1[@class='kitt-heading  page-teaser-dict__header kitt-heading_size_l'][text()='Страхование путешественников']")
+    WebElement title;
 
     @FindBy(xpath = "//SPAN[@class='kitt-button__text'][text()='Оформить онлайн']")
     public WebElement buttonForming;
 
     public TravelInsurancePage (WebDriver driver) {
+        super(driver);
         PageFactory.initElements(driver, this);
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(15), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(buttonForming)).click();
+        
+    }
+
+    public void waitSendAppClickable(){
+        Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
+        wait.until(ExpectedConditions.visibilityOf(
+                driver.findElement(By.xpath("///SPAN[@class='kitt-button__text'][text()='Оформить онлайн']")))).click();
     }
 }

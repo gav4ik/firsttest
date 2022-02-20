@@ -1,9 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.*;
@@ -34,36 +32,36 @@ public class MyRefactoringTest extends BaseTest{
           driver.switchTo().window(winHandle);
       }
 
-        new ChoosePolicyPage(driver);
+        new ChoosePolicyPage(driver).btnForming.click();
 
         FormingPage formingPage = new FormingPage(driver);
-        formingPage.fillField("Фамилия застрахованного", "Иванов");
-        formingPage.fillField("Имя застрахованного", "Иван");
-        formingPage.fillField("Дата рождения застрахованного", "15.10.1990");
-        formingPage.fillField("Фамилия страхователя", "Петров",wait);
-        formingPage.fillField("Имя страхователя", "Петр");
-        formingPage.fillField("Отчество страхователя", "Петрович");
-        formingPage.fillField("Дата рождения страхователя", "21.12.1980");
-        formingPage.fillField("Серия паспорта", "4510",wait);
-        formingPage.fillField("Номер паспорта", "451009");
-        formingPage.fillField("Дата выдачи паспорта", "30.09.2015");
-        formingPage.fillField("Кем выдан паспорт", "ФМС России",wait);
+        formingPage.fillFieldWait("Фамилия застрахованного", "Иванов", wait);
+        formingPage.fillFieldWait("Имя застрахованного", "Иван", wait);
+        formingPage.fillFieldWait("Дата рождения застрахованного", "15.10.1990", wait);
+        formingPage.fillFieldWait("Фамилия страхователя", "Петров",wait);
+        formingPage.fillFieldWait("Имя страхователя", "Петр", wait);
+        formingPage.fillFieldWait("Отчество страхователя", "Петрович", wait);
+        formingPage.fillFieldWait("Дата рождения страхователя", "21.12.1980", wait);
+        formingPage.fillFieldWait("Серия паспорта", "4510",wait);
+        formingPage.fillFieldWait("Номер паспорта", "451009", wait);
+        formingPage.fillFieldWait("Дата выдачи паспорта", "30.09.2015", wait);
+        formingPage.fillFieldWait("Кем выдан паспорт", "ФМС России",wait);
         formingPage.buttonContinue.click();
 
-        WebElement mistake = driver.findElement(By.xpath("/html/body/app/ng-component/div/div/div/app-forming-product/div/form/div/alert-form[1]/div"));
-        wait.until(ExpectedConditions.visibilityOf(mistake));
-        Assert.assertEquals("При заполнении данных произошла ошибка", mistake.getText());
-        Assert.assertEquals("Иванов", driver.findElement(By.id("surname_vzr_ins_0")).getAttribute("value"));
-        Assert.assertEquals("Иван", driver.findElement(By.id("name_vzr_ins_0")).getAttribute("value"));
-        Assert.assertEquals("15.10.1990", driver.findElement(By.id("birthDate_vzr_ins_0")).getAttribute("value"));
-        Assert.assertEquals("Петров", driver.findElement(By.id("person_lastName")).getAttribute("value"));
-        Assert.assertEquals("Петр", driver.findElement(By.id("person_firstName")).getAttribute("value"));
-        Assert.assertEquals("Петрович", driver.findElement(By.id("person_middleName")).getAttribute("value"));
-        Assert.assertEquals("21.12.1980", driver.findElement(By.id("person_birthDate")).getAttribute("value"));
-        Assert.assertEquals("4510", driver.findElement(By.id("passportSeries")).getAttribute("value"));
-        Assert.assertEquals("451009", driver.findElement(By.id("passportNumber")).getAttribute("value"));
-        Assert.assertEquals("30.09.2015", driver.findElement(By.id("documentDate")).getAttribute("value"));
-        Assert.assertEquals("ФМС России", driver.findElement(By.id("documentIssue")).getAttribute("value"));
+        WebElement mis= formingPage.getMistake();
+
+        Assert.assertEquals("При заполнении данных произошла ошибка", mis.getText());
+        Assert.assertEquals("Иванов", formingPage.getTextById("surname_vzr_ins_0"));
+        Assert.assertEquals("Иван", formingPage.getTextById("name_vzr_ins_0"));
+        Assert.assertEquals("15.10.1990", formingPage.getTextById("birthDate_vzr_ins_0"));
+        Assert.assertEquals("Петров", formingPage.getTextById("person_lastName"));
+        Assert.assertEquals("Петр", formingPage.getTextById("person_firstName"));
+        Assert.assertEquals("Петрович", formingPage.getTextById("person_middleName"));
+        Assert.assertEquals("21.12.1980", formingPage.getTextById("person_birthDate"));
+        Assert.assertEquals("4510", formingPage.getTextById("passportSeries"));
+        Assert.assertEquals("451009", formingPage.getTextById("passportNumber"));
+        Assert.assertEquals("30.09.2015", formingPage.getTextById("documentDate"));
+        Assert.assertEquals("ФМС России", formingPage.getTextById("documentIssue"));
 
 
 
