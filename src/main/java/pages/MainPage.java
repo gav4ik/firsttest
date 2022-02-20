@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class MainPage {
 
-    @FindBy(xpath = "(//DIV[@class='kitt-top-menu__icon-img'])[9]")
+    @FindBy(xpath = "//li[contains(@class,'kitt-top-menu__item kitt-top-menu__item_first')]/*[contains(text(),'Страхование')]")
     WebElement mainMenu;
 
     @FindBy(xpath = "/html/body/div[1]/div[1]/div/div[4]/nav/div/ul/li[9]/div/div[1]/ul/li[3]/a ")
